@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //charAt()方法：返回指定位置的字符
+        // 打印出最后一个字符
+        var str = "itbaizhan";
+        console.log(str.length); // 9
+        console.log(str.charAt(5)); // h
+        console.log(str.charAt(8)); // n
+        console.log(str.charAt(str.length - 1)); // n (使用length属性获取最后一个字符的索引)
+
+        //concat()方法：连接字符串
+        var str1 = "Hello, "; // Hello, 
+        var str2 = "world!"; // world!
+        var str3 = " How are you?"; // How are you?
+        console.log(str1.concat(str2, str3)); // Hello, world! How are you?
+        //字符串连接符“+”
+        var str4 = str1 + str2 + str3; // Hello, world! How are you?
+        console.log(str4);
+    </script>
+
+
+</body>
+
+</html>

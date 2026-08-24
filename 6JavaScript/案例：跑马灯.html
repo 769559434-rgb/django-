@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="icon" href="data:,">
+</head>
+
+<body>
+
+    <span id="txt">欢迎中国联通领导高倩莅临指导</span>
+
+    <script type="text/javascript">
+        function show() {
+
+            //1.去HTML中  获取某个标签并获取他的内容 （DOM操作）
+
+            var tag = document.getElementById("txt");
+            var dataString = tag.innerText;
+
+            //2.动态起来，把文本中的第一个字符放在字符串的后面
+            var firstChar = dataString[0];
+            var otherString = dataString.substring(1);
+            var newText = otherString + firstChar;
+
+            console.log(newText);
+
+            //3.把新的字符串放回到HTML中
+            tag.innerText = newText;
+        }
+
+        //JavaScript中的定时器
+        setInterval(show, 1000);
+    </script>
+</body>
+
+</html>

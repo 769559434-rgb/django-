@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block title %}新建用户{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div style="margin-bottom:10px;">
+            <a class="btn btn-success" href="/user/add/">
+                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> 新建用户
+            </a>
+        </div>
+
+        <div class="bs-example">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 添加用户
+                </div>
+                <div class="panel-body">
+                    {% include "user_form.html" %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

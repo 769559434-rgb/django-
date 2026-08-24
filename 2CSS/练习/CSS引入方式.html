@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>练习1：CSS选择器的引入方式 | 前端初学者</title>
+    <!-- 
+        本文件演示CSS的三种引入方式：
+        1. 外部样式表（通过link引入外部CSS文件）
+        2. 内部样式表（通过style标签）
+        3. 行内样式（通过style属性）
+    -->
+    <!-- 方式1：外部样式表（实际项目中链接.css文件，此处为了演示完整，创建一个模拟外部样式效果） -->
+    <link rel="stylesheet" href="text.css">
+    <style>
+            /* 方式2：内部样式表 */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(145deg, #f1f5f9 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .main-card {
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: #0f172a;
+            color: white;
+            padding: 28px 32px;
+        }
+        
+        .header h1 {
+            font-size: 1.9rem;
+            margin-bottom: 8px;
+        }
+        
+        .header p {
+            color: #94a3b8;
+        }
+        
+        .content {
+            padding: 32px;
+        }
+        
+        .demo-card {
+            background: #f8fafc;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            padding: 20px;
+            border-left: 6px solid #3b82f6;
+            transition: 0.2s;
+        }
+        
+        .demo-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+            color: #1e293b;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: #3b82f6;
+            color: white;
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 30px;
+            margin-bottom: 12px;
+        }
+        
+        code {
+            background: #e2e8f0;
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+        
+        .info-note {
+            background: #fef9c3;
+            border-left: 4px solid #eab308;
+            padding: 12px 18px;
+            border-radius: 16px;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+        
+        hr {
+            margin: 20px 0;
+            border: 0;
+            height: 1px;
+            background: #cbd5e1;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #f1f5f9;
+            font-size: 0.8rem;
+            color: #475569;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="main-card">
+            <div class="header">
+                <h1>📌 CSS 引入方式详解</h1>
+                <p>外部样式表 · 内部样式表 · 行内样式 —— 三种方式实战对比</p>
+            </div>
+            <div class="content">
+                <!-- 演示 外部样式表 (通过link引入) -->
+                <div class="demo-card">
+                    <span class="badge">方式 ①</span>
+                    <h2>🔗 外部样式表</h2>
+                    <p>使用 <code>&lt;link rel="stylesheet" href="style.css"&gt;</code> 引入独立的 .css 文件。<br> 优点：可复用、便于维护、分离结构与表现。
+                        <br>
+                        <strong>👇 下方区域样式由外部样式表控制：</strong></p>
+                    <!-- 这个div的样式来自外部样式的 data:text/css 模拟 -->
+                    <div class="external-style-box">
+                        <h3>📦 外部样式区块</h3>
+                        <p>我的背景、边框、字体等属性都是由外部CSS文件定义的。实际项目中将样式写在单独 .css 文件中再 link 引入。</p>
+                        <p>✅ 背景色浅蓝，圆角边框，文字深灰色 —— 外部样式生效。</p>
+                    </div>
+                </div>
+
+                <!-- 演示 内部样式表 -->
+                <div class="demo-card">
+                    <span class="badge">方式 ②</span>
+                    <h2>📄 内部样式表</h2>
+                    <p>使用 <code>&lt;style&gt;</code> 标签在 HTML 文档的 <code>&lt;head&gt;</code> 中定义样式。<br> 适用单页面独特样式，当前页面大部分样式（卡片、背景、按钮）都来自内部样式表。
+                    </p>
+                    <div style="background: #dbeafe; padding: 12px; border-radius: 14px; margin-top: 10px;">
+                        💡 这个卡片背景、整体布局、圆角阴影等都是由<strong>内部样式表</strong>定义的。
+                    </div>
+                </div>
+
+                <!-- 演示 行内样式 -->
+                <div class="demo-card">
+                    <span class="badge">方式 ③</span>
+                    <h2>✍️ 行内样式</h2>
+                    <p>直接在元素的 <code>style</code> 属性中编写CSS，优先级最高（通常用于临时调试或单独微调）。</p>
+                    <div style="background: #fce7f3; border: 2px solid #ec4899; border-radius: 20px; padding: 18px; color: #831843; font-weight: bold; box-shadow: 0 4px 12px rgba(236,72,153,0.2);">
+                        🎨 这个区域的样式完全由<strong style="background: #f9a8d4; padding: 2px 8px; border-radius: 20px;">行内样式</strong>控制！<br> 背景粉色、边框玫红、圆角阴影等均写在 style 属性中。
+                    </div>
+                    <div class="info-note" style="margin-top: 20px;">
+                        ⚡ 优先级提醒：行内样式 > 内部样式表 > 外部样式表 (同权重下后面的覆盖前面的)。日常开发推荐使用外部样式表。
+                    </div>
+                </div>
+                <hr>
+                <div class="info-note">
+                    📖 <strong>练习总结：</strong> 你现在已经见证了CSS三种引入方式。尝试修改外部样式模拟内容或内部样式，观察页面变化，加深理解。
+                </div>
+            </div>
+            <footer>🎯 练习1完成 ✓ 掌握CSS引入方式</footer>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,20 @@
+{% extends "base.html" %} {% block title %}博客首页{% endblock %} {% block content %}
+<h2>文章列表</h2>
+<hr> {% for art in articles %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <a href="/article/{{art.id}}">{{ art.title }}</a>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <p>作者：{{ art.author }} &nbsp;&nbsp; {{ art.create_time }}</p>
+        <p>{{ art.content[:120] }}……</p>
+        <a href="/article/{{art.id}}" class="btn btn-default">阅读全文</a>
+        <a href="/edit/{{art.id}}" class="btn btn-primary">编辑</a>
+        <a href="/del/{{art.id}}" onclick="return confirm('确定删除？')" class="btn btn-danger">删除</a>
+    </div>
+</div>
+{% else %}
+<div class="alert alert-info">暂无文章，快去发布第一篇吧！<a href="/add">点击发布</a></div>
+{% endfor %} {% endblock %}

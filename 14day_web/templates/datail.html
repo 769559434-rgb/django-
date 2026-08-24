@@ -1,0 +1,12 @@
+{% extends "base.html" %} {% block title %}{{art.title}}{% endblock %} {% block content %}
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <h2>{{ art.title }}</h2>
+        <p>作者：{{art.author}} | 发布时间：{{art.create_time}}</p>
+    </div>
+    <div class="panel-body">
+        <p style="font-size:16px;line-height:1.8;">{{ art.content }}</p>
+    </div>
+</div>
+<a href="/" class="btn btn-default">返回列表</a>
+<a href="/edit/{{art.id}}" class="btn btn-primary">编辑文章</a> {% endblock %}

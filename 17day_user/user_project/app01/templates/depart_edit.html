@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{%block title%}编辑部门{% endblock %}
+{%block content%}
+    <div class="container">
+        <div style="margin-bottom:10px;">
+            <a class="btn btn-success" href="/depart/list/">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> 返回列表
+            </a>
+        </div>
+        <div class="bs-example">
+            <div class="panel panel-default">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label>部门名称</label>
+                        <input type="text" class="form-control" placeholder="部门名称" name="title" value="{{ obj.title }}">
+                    </div>
+                    <button type="submit" class="btn btn-primary">保存</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

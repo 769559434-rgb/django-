@@ -1,0 +1,12 @@
+<body>  ← body样式（渐变背景）
+  └─ <div class="container">  ← container样式（居中、限宽）
+      └─ <div class="main-card">  ← main-card样式（白底、圆角、阴影）
+          ├─ <div class="header">  ← header样式（深色背景）
+          │   ├─ <h1>  ← .header h1样式
+          │   └─ <p>  ← .header p样式
+          ├─ <div class="content">
+          │   └─ <div class="demo-card">  ← demo-card样式
+          │       ├─ <span class="badge">  ← badge样式
+          │       ├─ <h2>  ← .demo-card h2样式
+          │       └─ <code>  ← code样式
+          └─ <footer>  ← footer样式

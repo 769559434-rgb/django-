@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>前端分页演示</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "Microsoft YaHei", sans-serif;
+    margin: 0; padding: 32px;
+    background: #f5f7fa; color: #1f2329;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  .sub { color: #8a9099; font-size: 13px; margin-bottom: 20px; }
+
+  .toolbar {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 16px; flex-wrap: wrap;
+  }
+  .toolbar label { font-size: 14px; }
+  select, input[type="number"] {
+    padding: 6px 10px; border: 1px solid #d0d5dd;
+    border-radius: 6px; font-size: 14px; background: #fff;
+  }
+
+  .list { background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+  .item {
+    padding: 14px 18px; border-bottom: 1px solid #f0f2f5;
+    display: flex; justify-content: space-between; font-size: 14px;
+  }
+  .item:last-child { border-bottom: none; }
+  .item .idx { color: #8a9099; font-variant-numeric: tabular-nums; }
+
+  .pager {
+    display: flex; align-items: center; gap: 6px;
+    margin-top: 18px; flex-wrap: wrap;
+  }
+  .pager button {
+    min-width: 34px; height: 34px; padding: 0 10px;
+    border: 1px solid #d0d5dd; background: #fff; border-radius: 6px;
+    cursor: pointer; font-size: 14px; color: #1f2329;
+  }
+  .pager button:hover:not(:disabled) { border-color: #4c6ef5; color: #4c6ef5; }
+  .pager button.active { background: #4c6ef5; border-color: #4c6ef5; color: #fff; }
+  .pager button:disabled { opacity: .45; cursor: not-allowed; }
+  .pager .gap { color: #b0b6bf; padding: 0 2px; }
+  .pager .jump { margin-left: auto; display: flex; align-items: center; gap: 6px; font-size: 14px; }
+  .pager .jump input { width: 56px; }
+  .info { margin-top: 10px; font-size: 13px; color: #8a9099; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>前端分页演示 (Pagination)</h1>
+  <div class="sub">核心思路：一次性拿到全部数据，用数组 slice 切出当前页那段来渲染。</div>
+
+  <div class="toolbar">
+    <label>每页条数：</label>
+    <select id="pageSize">
+      <option value="5">5 条</option>
+      <option value="10" selected>10 条</option>
+      <option value="20">20 条</option>
+      <option value="50">50 条</option>
+    </select>
+  </div>
+
+  <div class="list" id="dataList"></div>
+
+  <div class="pager" id="pager"></div>
+  <div class="info" id="info"></div>
+</div>
+
+<script>
+  // ===== 1. 准备「全部数据」 =====
+  // 真实项目里这份数据通常来自接口；这里用循环造 137 条假数据
+  const ALL_DATA = Array.from({ length: 137 }, (_, i) => ({
+    id: i + 1,
+    name: "用户 " + (i + 1),
+    score: Math.floor(Math.random() * 100)
+  }));
+
+  // ===== 2. 分页状态 =====
+  let currentPage = 1;
+  let pageSize = 10;
+
+  const $list = document.getElementById("dataList");
+  const $pager = document.getElementById("pager");
+  const $info = document.getElementById("info");
+  const $size = document.getElementById("pageSize");
+
+  // ===== 3. 核心：根据页码算出要展示的那一段 =====
+  function render() {
+    const total = ALL_DATA.length;
+    const totalPages = Math.ceil(total / pageSize);
+
+    // 边界保护：页码越界时拉回有效范围
+    if (currentPage < 1) currentPage = 1;
+    if (currentPage > totalPages) currentPage = totalPages;
+
+    // 关键公式：第 currentPage 页 = 从第 (currentPage-1)*pageSize 条开始，取 pageSize 条
+    const start = (currentPage - 1) * pageSize;
+    const end = start + pageSize;
+    const pageItems = ALL_DATA.slice(start, end); // ← 前端分页的灵魂就这一行
+
+    // 渲染列表
+    $list.innerHTML = pageItems.map(it => `
+      <div class="item">
+        <span>${it.name} · 分数 ${it.score}</span>
+        <span class="idx">#${it.id}</span>
+      </div>`).join("");
+
+    // 渲染页码按钮（带省略号，数据多也不炸）
+    renderPager(totalPages);
+
+    // 信息行
+    $info.textContent = `共 ${total} 条，第 ${currentPage}/${totalPages} 页，本页 ${pageItems.length} 条`;
+  }
+
+  // ===== 4. 渲染页码导航 =====
+  function renderPager(totalPages) {
+    let html = "";
+    // 上一页
+    html += `<button ${currentPage === 1 ? "disabled" : ""} data-page="${currentPage - 1}">‹</button>`;
+
+    // 页码（多的时候用省略号压缩）
+    const pages = pageNumbers(currentPage, totalPages);
+    pages.forEach(p => {
+      if (p === "...") {
+        html += `<span class="gap">…</span>`;
+      } else {
+        html += `<button class="${p === currentPage ? "active" : ""}" data-page="${p}">${p}</button>`;
+      }
+    });
+
+    // 下一页
+    html += `<button ${currentPage === totalPages ? "disabled" : ""} data-page="${currentPage + 1}">›</button>`;
+    // 跳页
+    html += `<span class="jump">跳到 <input type="number" id="jumpInput" min="1" max="${totalPages}" value="${currentPage}"> 页 <button id="jumpBtn">前往</button></span>`;
+
+    $pager.innerHTML = html;
+
+    // 绑定点击：事件委托，点哪个按钮就跳哪页
+    $pager.querySelectorAll("button[data-page]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        currentPage = Number(btn.dataset.page);
+        render();
+      });
+    });
+    document.getElementById("jumpBtn").addEventListener("click", () => {
+      const v = Number(document.getElementById("jumpInput").value);
+      if (v >= 1 && v <= totalPages) { currentPage = v; render(); }
+    });
+  }
+
+  // 生成要显示的页码数组，例如 [1,2,3,'...',10]
+  function pageNumbers(cur, total) {
+    if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+    if (cur <= 4) return [1, 2, 3, 4, 5, "...", total];
+    if (cur >= total - 3) return [1, "...", total - 4, total - 3, total - 2, total - 1, total];
+    return [1, "...", cur - 1, cur, cur + 1, "...", total];
+  }
+
+  // ===== 5. 改变每页条数时，重置到第一页 =====
+  $size.addEventListener("change", () => {
+    pageSize = Number($size.value);
+    currentPage = 1;
+    render();
+  });
+
+  // 首次渲染
+  render();
+</script>
+</body>
+</html>

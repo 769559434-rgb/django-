@@ -1,0 +1,28 @@
+{% extends "layout.html" %} 
+{% block title %}部门管理{% endblock %} 
+{% block content %}
+<a href="/depart/add/" class="btn btn-success">新建部门</a>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>名称</th>
+            <th>操作</th>
+
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for obj in queryset %}
+        <tr>
+            <th>{{ obj.id }}</th>
+            <td>{{ obj.title }}</td>
+            <td>
+                <a href="/depart/delete/{{ obj.id }}/" class="btn btn-danger btn-xs" onclick="return confirm('确定删除该部门吗？');">删除</a>
+                <a href="/depart/edit/{{ obj.id }}/" class="btn btn-primary btn-xs">编辑</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

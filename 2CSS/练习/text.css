@@ -1,0 +1,19 @@
+/* 外部样式表 - CSS引入方式练习 */
+
+.external-style-box {
+    background-color: #e0f2fe;
+    border: 2px solid #0284c7;
+    border-radius: 12px;
+    padding: 15px;
+    margin-top: 15px;
+    font-family: monospace;
+}
+
+.external-style-box h3 {
+    color: #0369a1;
+    margin-bottom: 8px;
+}
+
+.external-style-box p {
+    color: #0f172a;
+}
