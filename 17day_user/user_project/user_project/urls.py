@@ -15,30 +15,33 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from django.contrib import admin
 from django.urls import path
-from app01 import views
+from app01.views.depart_views import depart_list, depart_add, depart_edit, depart_delete
+from app01.views.user_views import user_list, user_add, user_edit, user_delete, user_model_form_add
+from app01.views.pretty_views import pretty_list, pretty_add, pretty_edit, pretty_delete
+from app01.views.admin_views import admin_list
+
 
 urlpatterns = [
-    # 部门管理
-    # path("admin/", admin.site.urls),
-    path("depart/list/", views.depart_list),
-    path("depart/add/", views.depart_add),
-    path("depart/edit/<int:nid>/", views.depart_edit),
-    path("depart/delete/<int:nid>/", views.depart_delete),
+    #部门
+    path('depart/list/', depart_list, name="depart_list"),
+    path('depart/add/', depart_add, name="depart_add"),
+    path('depart/edit/<int:nid>/', depart_edit, name="depart_edit"),
+    path('depart/delete/<int:nid>/', depart_delete, name="depart_delete"),
 
-    # 员工管理
-    path("user/list/", views.user_list),
-    path("user/add/", views.user_add),
-    path("user/edit/<int:nid>/", views.user_edit),
-    path("user/delete/<int:nid>/", views.user_delete),
-    path("user/model/form/add/",views.user_model_form_add),
-    path("user/edit/<int:nid>/",views.user_edit),
-   #靓号管理
-    path("pretty/list/", views.pretty_list, name="pretty_list"),
-    path("pretty/add/", views.pretty_add, name="pretty_add"),
-    path("pretty/edit/<int:pk>/", views.pretty_edit, name="pretty_edit"),
-    path("pretty/del/<int:pk>/", views.pretty_delete, name="pretty_delete"),
+    #员工
+    path('user/list/', user_list, name="user_list"),
+    path('user/add/', user_add, name="user_add"),
+    path('user/model/add/', user_model_form_add, name="user_model_form_add"),
+    path('user/edit/<int:nid>/', user_edit, name="user_edit"),
+    path('user/delete/<int:nid>/', user_delete, name="user_delete"),
+
+    #靓号 ✅这里重点！加上name
+    path('pretty/list/', pretty_list, name="pretty_list"),
+    path('pretty/add/', pretty_add, name="pretty_add"),
+    path('pretty/edit/<int:pk>/', pretty_edit, name="pretty_edit"),
+    path('pretty/delete/<int:pk>/', pretty_delete, name="pretty_delete"),
+
+    #管理员
+    path('admin/list/', admin_list, name="admin_list"),
 ]
-
-

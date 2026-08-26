@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-from django.db import models
+
 
 class Department(models.Model):
     """ 部门表 """
@@ -9,6 +9,7 @@ class Department(models.Model):
     def __str__(self):
         # 返回要在下拉框显示的文本，一般是部门名称
         return self.title
+
 
 class UserInfo(models.Model):
     """ 员工表 """
@@ -35,10 +36,6 @@ class UserInfo(models.Model):
     gender = models.SmallIntegerField(verbose_name="性别", choices=gender_choices)
 
 
-
-
-from django.db import models
-
 class PrettyNum(models.Model):
     """靓号管理"""
     mobile = models.CharField(verbose_name="手机号码", max_length=11, unique=True)
@@ -63,4 +60,11 @@ class PrettyNum(models.Model):
 
     def __str__(self):
         return self.mobile
-                                  
+
+
+class Admin(models.Model):
+    """ 管理员 """
+    username = models.CharField(verbose_name="用户名", max_length=32)
+    password = models.CharField(verbose_name="密码", max_length=64)
+    
+    
