@@ -20,6 +20,8 @@ from app01.views.depart_views import depart_list, depart_add, depart_edit, depar
 from app01.views.user_views import user_list, user_add, user_edit, user_delete, user_model_form_add
 from app01.views.pretty_views import pretty_list, pretty_add, pretty_edit, pretty_delete
 from app01.views.admin_views import admin_list
+from app01.views.admin_views import admin_add
+
 
 
 urlpatterns = [
@@ -44,4 +46,5 @@ urlpatterns = [
 
     #管理员
     path('admin/list/', admin_list, name="admin_list"),
+    path('admin/add/', admin_add, name="admin_add"),
 ]
