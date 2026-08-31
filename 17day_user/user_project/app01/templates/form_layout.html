@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ form_title }}{% endblock %}
+
+{% block content %}
+    <!-- 表单页通用骨架：面板 + ModelForm 自动渲染（新增/编辑通用） -->
+    <div class="bs-example">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {{ form_title }}
+            </div>
+            <div class="panel-body">
+                <form method="post" class="form-horizontal" novalidate>
+                    {% csrf_token %}
+
+                    {% include "_form_fields.html" %}
+
+                    <!-- 全局错误（如管理员两次密码不一致） -->
+                    {% if form.non_field_errors %}
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-6">
+                                <div class="alert alert-danger">{{ form.non_field_errors.0 }}</div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-6">
+                            <button type="submit" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 保存
+                            </button>
+                            <a href="{{ back_url }}" class="btn btn-default" style="margin-left:10px;">返回</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

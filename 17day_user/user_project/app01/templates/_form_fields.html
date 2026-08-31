@@ -1,0 +1,10 @@
+{# 通用 ModelForm 字段渲染：一行一个字段（label + 控件 + 错误提示），被 form_layout.html 引用 #}
+{% for field in form %}
+    <div class="form-group">
+        <label class="col-sm-2 control-label">{{ field.label }}</label>
+        <div class="col-sm-6">
+            {{ field }}
+            <span class="text-danger">{{ field.errors.0 }}</span>
+        </div>
+    </div>
+{% endfor %}

@@ -17,14 +17,19 @@ Including another URLconf
 
 from django.urls import path
 from app01.views.depart_views import depart_list, depart_add, depart_edit, depart_delete
-from app01.views.user_views import user_list, user_add, user_edit, user_delete, user_model_form_add
+from app01.views.user_views import user_list, user_add, user_edit, user_delete
 from app01.views.pretty_views import pretty_list, pretty_add, pretty_edit, pretty_delete
-from app01.views.admin_views import admin_list
-from app01.views.admin_views import admin_add
+from app01.views.admin_views import admin_list, admin_add, admin_edit, admin_reset, admin_delete
+from app01.views.account_views import login, logout
+
 
 
 
 urlpatterns = [
+    # 登录 / 登出
+    path('login/', login, name="login"),
+    path('logout/', logout, name="logout"),
+
     #部门
     path('depart/list/', depart_list, name="depart_list"),
     path('depart/add/', depart_add, name="depart_add"),
@@ -34,7 +39,6 @@ urlpatterns = [
     #员工
     path('user/list/', user_list, name="user_list"),
     path('user/add/', user_add, name="user_add"),
-    path('user/model/add/', user_model_form_add, name="user_model_form_add"),
     path('user/edit/<int:nid>/', user_edit, name="user_edit"),
     path('user/delete/<int:nid>/', user_delete, name="user_delete"),
 
@@ -47,4 +51,7 @@ urlpatterns = [
     #管理员
     path('admin/list/', admin_list, name="admin_list"),
     path('admin/add/', admin_add, name="admin_add"),
+    path('admin/edit/<int:pk>/', admin_edit, name="admin_edit"),
+    path('admin/reset/<int:pk>/', admin_reset, name="admin_reset"),
+    path('admin/delete/<int:pk>/', admin_delete, name="admin_delete"),
 ]

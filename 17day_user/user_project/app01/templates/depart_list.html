@@ -1,17 +1,17 @@
-{% extends "layout.html" %} 
-{% block title %}部门管理{% endblock %} 
-{% block content %}
-<a href="/depart/add/" class="btn btn-success">新建部门</a>
+{% extends "list_layout.html" %}
+{% block title %}部门管理{% endblock %}
+{% block panel_title %}部门列表{% endblock %}
+{% block list_header %}{% include "_list_header.html" %}{% endblock %}
+
+{% block table %}
 <table class="table table-bordered">
     <thead>
         <tr>
             <th>ID</th>
             <th>名称</th>
             <th>操作</th>
-
         </tr>
     </thead>
-
     <tbody>
         {% for obj in queryset %}
         <tr>

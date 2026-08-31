@@ -6,7 +6,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}联通用户管理系统{% endblock %}</title>
-    <!-- 全部替换为英文减号 - -->
     <link rel="stylesheet" href="{% static 'plugins/bootstrap-3.4.1/css/bootstrap.min.css' %}">
     <style>
         .navbar {
@@ -17,7 +16,7 @@
 </head>
 
 <body>
-    <!-- 完整可用导航栏 -->
+    <!-- 顶部导航栏 -->
     <nav class="navbar navbar-default">
         <div class="container">
             <div class="navbar-header">
@@ -34,55 +33,60 @@
                     <li><a href="/admin/list/">管理员账号</a></li>
                     <li><a href="/depart/list/">部门管理</a></li>
                     <li><a href="/user/list/">用户管理</a></li>
-                    <li><a href="/pretty/list">靓号管理</a></li>
-
-                </ul>   
+                    <li><a href="/pretty/list/">靓号管理</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {% if request.session.info %}
+                    <li><a href="#"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{ request.session.info.username }}</a></li>
+                    <li><a href="/logout/">退出</a></li>
+                    {% endif %}
+                </ul>
             </div>
         </div>
     </nav>
 
     <div class="container">
         {% block content %}{% endblock %}
-    <!-- 分页组件（带跳转） -->
-    <div style="text-align:center;margin-top:15px;">
-        {% if page_obj.has_previous %}
-            <a href="?page=1&search={{search_key}}" class="btn btn-default btn-sm">«</a>
-            <a href="?page={{ page_obj.previous_page_number }}&search={{search_key}}" class="btn btn-default btn-sm">上一页</a>
-        {% endif %}
 
-        {% for num in page_obj.paginator.page_range %}
-            {% if num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                {% if page_obj.number == num %}
-                    <span class="btn btn-primary btn-sm">{{ num }}</span>
-                {% else %}
-                    <a href="?page={{ num }}&search={{search_key}}" class="btn btn-default btn-sm">{{ num }}</a>
-                {% endif %}
+        <!-- 分页组件（只有列表页传了 page_obj 才显示） -->
+        {% if page_obj %}
+        <div style="text-align:center;margin-top:15px;">
+            {% if page_obj.has_previous %}
+                <a href="?page=1&search={{ search_key }}" class="btn btn-default btn-sm">«</a>
+                <a href="?page={{ page_obj.previous_page_number }}&search={{ search_key }}" class="btn btn-default btn-sm">上一页</a>
             {% endif %}
-        {% endfor %}
 
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}&search={{search_key}}" class="btn btn-default btn-sm">下一页</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}&search={{search_key}}" class="btn btn-default btn-sm">»</a>
-        {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+                {% if num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    {% if page_obj.number == num %}
+                        <span class="btn btn-primary btn-sm">{{ num }}</span>
+                    {% else %}
+                        <a href="?page={{ num }}&search={{ search_key }}" class="btn btn-default btn-sm">{{ num }}</a>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
 
-        <!-- ==========新增跳转输入框部分========== -->
-        <form method="get" style="display:inline-block;margin-left:10px;">
-            <!-- 保留搜索参数，隐藏输入框携带 -->
-            <input type="hidden" name="search" value="{{ search_key }}">
-            <span>跳转到</span>
-            <input type="number" name="page" min="1" max="{{ page_obj.paginator.num_pages }}"
-                   class="form-control" style="width:60px;display:inline-block;text-align:center;">
-            <button class="btn btn-default btn-sm">GO</button>
-        </form>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}&search={{ search_key }}" class="btn btn-default btn-sm">下一页</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}&search={{ search_key }}" class="btn btn-default btn-sm">»</a>
+            {% endif %}
 
-        <div style="margin-top:8px;color:#666;">
-            共 {{ page_obj.paginator.count }} 条，第 {{ page_obj.number }} / {{ page_obj.paginator.num_pages }} 页
+            <!-- 跳转输入框（保留搜索参数） -->
+            <form method="get" style="display:inline-block;margin-left:10px;">
+                <input type="hidden" name="search" value="{{ search_key }}">
+                <span>跳转到</span>
+                <input type="number" name="page" min="1" max="{{ page_obj.paginator.num_pages }}"
+                       class="form-control" style="width:60px;display:inline-block;text-align:center;">
+                <button class="btn btn-default btn-sm">GO</button>
+            </form>
+
+            <div style="margin-top:8px;color:#666;">
+                共 {{ page_obj.paginator.count }} 条，第 {{ page_obj.number }} / {{ page_obj.paginator.num_pages }} 页
+            </div>
         </div>
-    </div>
-</div>
+        {% endif %}
     </div>
 
-    <!-- 英文减号修正 -->
     <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
     <script src="{% static 'plugins/bootstrap-3.4.1/js/bootstrap.min.js' %}"></script>
     {% block js %}{% endblock %}

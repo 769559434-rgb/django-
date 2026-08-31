@@ -1,0 +1,18 @@
+{# 列表页顶部工具条：左侧新建按钮，右侧可选搜索框，被各列表页引用 #}
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+    <div>
+        <a class="btn btn-success" href="{{ add_url }}">
+            <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> {{ add_text }}
+        </a>
+    </div>
+    {% if search_placeholder %}
+    <div>
+        <form method="get" style="margin:0;">
+            <input type="text" name="search" class="form-control" placeholder="{{ search_placeholder }}" value="{{ search_key }}"
+                   style="width:300px;display:inline-block;">
+            <button class="btn btn-primary">搜索</button>
+            <a href="{{ search_url }}" class="btn btn-default">重置</a>
+        </form>
+    </div>
+    {% endif %}
+</div>

@@ -1,43 +1,37 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
+
+from app01.forms import DepartmentModelForm
 from app01.models import Department
-from app01.views.common import get_paginated_data
+from app01.views.common import paginate_list_page, save_model_form
 
 
 def depart_list(request):
     """ 部门列表 """
-    queryset = Department.objects.all()
-    page_obj = get_paginated_data(request, queryset)
-    context = {
-        "queryset": page_obj.object_list,
-        "page_obj": page_obj,
-    }
-    return render(request, "depart_list.html", context)
+    return paginate_list_page(
+        request,
+        Department.objects.all(),
+        "depart_list.html",
+        extra_context={"add_url": "/depart/add/", "add_text": "新建部门"},
+    )
 
 
 def depart_add(request):
     """ 添加部门 """
-    if request.method == "GET":
-        return render(request, "depart_add.html")
-    else:
-        title = request.POST.get("title")
-        Department.objects.create(title=title)
-        return redirect("/depart/list/")
+    return save_model_form(
+        request, DepartmentModelForm, "form_layout.html", "/depart/list/",
+        form_title="新建部门", back_url="/depart/list/",
+    )
 
 
 def depart_edit(request, nid):
     """ 编辑部门 """
-    obj = Department.objects.filter(id=nid).first()
-    if not obj:
+    instance = Department.objects.filter(id=nid).first()
+    if not instance:
         return redirect("/depart/list/")
-
-    if request.method == "GET":
-        return render(request, "depart_edit.html", {"obj": obj})
-    else:
-        title = request.POST.get("title")
-        if title:
-            obj.title = title
-            obj.save()
-        return redirect("/depart/list/")
+    return save_model_form(
+        request, DepartmentModelForm, "form_layout.html", "/depart/list/",
+        instance=instance, form_title="编辑部门", back_url="/depart/list/",
+    )
 
 
 def depart_delete(request, nid):
